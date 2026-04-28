@@ -80,7 +80,7 @@ export function ComparisonSection() {
 
   return (
     <section ref={sectionRef} className="py-24 md:py-36 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 mb-16">
+      <div className="max-w-6xl mx-auto px-8 md:px-12 lg:px-16 w-full mb-16">
         <p className="text-xs uppercase tracking-widest text-[#888880] mb-4">Agency</p>
         <h2 className="text-4xl md:text-6xl font-light text-[#f5f5f0] leading-tight">
           Why{" "}
@@ -122,7 +122,7 @@ export function ComparisonSection() {
       </div>
 
       {/* Comparison table */}
-      <div className="max-w-7xl mx-auto px-6" ref={tableRef}>
+      <div className="max-w-6xl mx-auto px-8 md:px-12 lg:px-16 w-full" ref={tableRef}>
         <div className="rounded-2xl border border-[#1e1e1e] overflow-hidden">
           {/* Table header */}
           <div className="grid grid-cols-3 border-b border-[#1e1e1e] bg-[#0d0d0d]">

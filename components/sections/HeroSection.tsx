@@ -15,7 +15,6 @@ const stats = [
   { value: "85%", label: "Manpower release" },
 ];
 
-// Stagger variants for children
 const containerVariants = {
   hidden: {},
   visible: {
@@ -43,7 +42,6 @@ export function HeroSection() {
 
   useGSAP(
     () => {
-      // Subtle parallax on the background orb
       gsap.to(bgRef.current, {
         yPercent: -40,
         ease: "none",
@@ -64,7 +62,6 @@ export function HeroSection() {
       id="hero"
       className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-16"
     >
-      {/* Animated background gradient */}
       <div
         ref={bgRef}
         className="absolute inset-0 pointer-events-none"
@@ -74,7 +71,6 @@ export function HeroSection() {
         <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-[#4a90e2] opacity-[0.04] blur-[100px]" />
       </div>
 
-      {/* Grid lines overlay */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -88,8 +84,8 @@ export function HeroSection() {
         aria-hidden="true"
       />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
-        {/* Tag */}
+      {/* Main Container - Tighter max-width for better "gutter" feel */}
+      <div className="max-w-6xl mx-auto px-8 md:px-12 lg:px-16 w-full relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -99,7 +95,6 @@ export function HeroSection() {
           <span className="tag-pill">Humans behind AI</span>
         </motion.div>
 
-        {/* Headline */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -108,25 +103,25 @@ export function HeroSection() {
         >
           <motion.h1
             variants={itemVariants}
-            className="text-6xl md:text-8xl lg:text-[10rem] font-light leading-[0.9] tracking-tight text-[#f5f5f0]"
+            className="text-6xl md:text-8xl lg:text-[9rem] font-light leading-[0.9] tracking-tight text-[#f5f5f0]"
           >
             Flex
             <span className="italic text-[#888880]">ibility</span>
           </motion.h1>
           <motion.p
             variants={itemVariants}
-            className="mt-6 max-w-lg text-lg md:text-xl text-[#888880] leading-relaxed"
+            className="mt-6 max-w-lg text-lg md:text-xl text-[#888880] leading-relaxed font-light"
           >
             We translate messy processes into clean, automated flows that
             compound your team&apos;s output and free up strategic time.
           </motion.p>
           <motion.div
             variants={itemVariants}
-            className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4"
+            className="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-6"
           >
             <a
               href="#pricing"
-              className="group relative inline-flex items-center gap-2 text-sm font-medium px-6 py-3 rounded-full bg-[#c8fa5f] text-[#0a0a0a] hover:bg-[#d4fb6e] transition-colors"
+              className="group relative inline-flex items-center gap-2 text-sm font-medium px-8 py-4 rounded-full bg-[#c8fa5f] text-[#0a0a0a] hover:scale-105 transition-transform"
             >
               Get Started
               <span className="group-hover:translate-x-0.5 transition-transform">
@@ -137,44 +132,42 @@ export function HeroSection() {
               href="#case-studies"
               className="text-sm text-[#888880] hover:text-[#f5f5f0] transition-colors flex items-center gap-2"
             >
-              <span className="w-8 h-px bg-[#333]" />
+              <span className="w-10 h-px bg-[#333]" />
               Latest case study
             </a>
           </motion.div>
         </motion.div>
 
-        {/* Stats row */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-16 border-t border-[#1e1e1e] mt-16"
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-16 border-t border-[#1e1e1e] mt-20"
         >
           {stats.map((stat) => (
             <motion.div key={stat.label} variants={itemVariants}>
-              <p className="stat-number text-3xl md:text-4xl font-light text-[#f5f5f0] mb-1">
+              <p className="stat-number text-3xl md:text-4xl font-light text-[#f5f5f0] mb-2">
                 {stat.value}
               </p>
-              <p className="text-xs text-[#888880] leading-snug">{stat.label}</p>
+              <p className="text-[10px] uppercase tracking-widest text-[#555550] leading-snug">{stat.label}</p>
             </motion.div>
           ))}
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="text-[10px] uppercase tracking-widest text-[#555550]">
+        <span className="text-[10px] uppercase tracking-widest text-[#333330]">
           Scroll
         </span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-8 bg-gradient-to-b from-[#555550] to-transparent"
+          className="w-px h-8 bg-gradient-to-b from-[#333330] to-transparent"
         />
       </motion.div>
     </section>

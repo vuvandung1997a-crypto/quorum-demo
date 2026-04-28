@@ -1,237 +1,296 @@
 "use client";
 
 import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion, useInView } from "framer-motion";
-
-gsap.registerPlugin(ScrollTrigger);
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const caseStudies = [
   {
     id: "supportpilot",
     tags: ["Multichannel Integration", "Knowledge Base Engineering"],
     title: "Support Pilot — Multichannel AI Customer Assistant",
+    description: "Built a comprehensive AI-driven customer support system that handles 85% of queries without human intervention across email, chat, and social media.",
     stats: [
       { value: "−64%", label: "Response time" },
       { value: "−40%", label: "Backlog" },
       { value: "24/7", label: "Uptime" },
     ],
-    color: "#1a2a1a",
+    color: "#161c16",
     accentColor: "#4ade80",
+    image: "/globe.svg",
   },
   {
     id: "retailflow",
-    tags: ["AI Forecasting", "Process Automation", "Systems Integration"],
+    tags: ["AI Forecasting", "Process Automation"],
     title: "Retail Flow — AI-Driven Demand Forecasting & Inventory Automation",
+    description: "Implemented a machine learning solution for a major retail chain to predict demand and automate stock replenishment across 500+ locations.",
     stats: [
       { value: "32%", label: "Stockout reduction" },
       { value: "+18%", label: "Turnover rate" },
       { value: "12h/w", label: "Saved per store" },
     ],
-    color: "#1a1a2a",
+    color: "#16161c",
     accentColor: "#60a5fa",
+    image: "/window.svg",
   },
   {
     id: "leadsense",
     tags: ["AI Lead Scoring", "Workflow Automation"],
     title: "Leadsense — Automated Lead Qualification & Routing Engine",
+    description: "Developed an intelligent routing engine that scores leads in real-time and connects high-intent prospects with the right sales representatives instantly.",
     stats: [
       { value: "+45%", label: "CR Increase" },
       { value: "−99%", label: "Response time" },
       { value: "100h/mo", label: "Time saved" },
     ],
-    color: "#2a1a1a",
+    color: "#1c1616",
     accentColor: "#f87171",
+    image: "/next.svg",
   },
   {
-    id: "lease",
-    tags: ["AI Lead Scoring", "Workflow Automation"],
-    title: "Leadsense — Automated Lead Qualification & Routing Engine",
+    id: "quantum",
+    tags: ["Predictive Analytics", "Data Engineering"],
+    title: "Quantum — Real-time Financial Risk Assessment Platform",
+    description: "Engineered a high-performance data pipeline for financial institutions to assess market risk and liquidity in real-time using advanced predictive models.",
     stats: [
-      { value: "+45%", label: "CR Increase" },
-      { value: "−99%", label: "Response time" },
-      { value: "100h/mo", label: "Time saved" },
+      { value: "1.2ms", label: "Latency" },
+      { value: "99.99%", label: "Accuracy" },
+      { value: "4.2TB", label: "Daily data" },
     ],
-    color: "#2a1a1a",
-    accentColor: "#f87171",
+    color: "#1c1c16",
+    accentColor: "#fbbf24",
+    image: "/vercel.svg",
   },
 ];
 
 interface CaseStudyCardProps {
   study: (typeof caseStudies)[0];
   index: number;
+  total: number;
 }
 
-function CaseStudyCard({ study, index }: CaseStudyCardProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+function CaseStudyCard({ study, index, total }: CaseStudyCardProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  const isLast = index === total - 1;
+  
+  const scale = useTransform(scrollYProgress, [0.7, 1], [1, isLast ? 1 : 0.92]);
+  const dimOpacity = useTransform(scrollYProgress, [0.7, 1], [0, isLast ? 0 : 0.4]);
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 60 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{
-        duration: 0.8,
-        delay: index * 0.15,
-        ease: [0.25, 0.1, 0.25, 1],
-      }}
-      className="group block rounded-2xl border border-[#1e1e1e] overflow-hidden cursor-pointer hover:border-[#2a2a2a] transition-all duration-500"
-      style={{ background: study.color }}
+    <div 
+      ref={containerRef}
+      className="sticky top-[10vh] w-full mb-[15vh] last:mb-0"
+      style={{ zIndex: index + 1 }}
     >
-      {/* Card image area */}
-      <div className="relative h-52 md:h-64 overflow-hidden">
-        <div
-          className="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
-          style={{
-            background: `radial-gradient(ellipse at 30% 50%, ${study.accentColor}22 0%, transparent 60%), ${study.color}`,
-          }}
+      <motion.div
+        style={{ 
+          scale,
+          backgroundColor: study.color,
+        }}
+        className="relative min-h-[550px] md:min-h-[650px] rounded-[40px] border border-[#ffffff10] overflow-hidden flex flex-col md:flex-row shadow-[0_-20px_50px_rgba(0,0,0,0.5)] will-change-transform"
+      >
+        <motion.div 
+          className="absolute inset-0 bg-black z-10 pointer-events-none"
+          style={{ opacity: dimOpacity }}
         />
-        {/* Abstract visual element */}
-        <div className="absolute inset-0 flex items-center justify-center">
+
+        {/* Visual Side */}
+        <div className="relative w-full md:w-1/2 h-64 md:h-auto overflow-hidden bg-[#00000015]">
           <div
-            className="w-32 h-32 rounded-full opacity-20 blur-2xl group-hover:scale-125 transition-transform duration-700"
-            style={{ background: study.accentColor }}
-          />
-          <div
-            className="absolute w-16 h-16 rounded-full opacity-40"
+            className="absolute inset-0 opacity-20"
             style={{
-              background: `radial-gradient(circle, ${study.accentColor} 0%, transparent 70%)`,
+              background: `radial-gradient(circle at center, ${study.accentColor}44 0%, transparent 70%)`,
             }}
           />
-        </div>
-        {/* Top bar */}
-        <div className="absolute top-4 left-4 right-4 flex flex-wrap gap-2">
-          {study.tags.map((tag) => (
-            <span
-              key={tag}
-              className="tag-pill"
-              style={{
-                borderColor: `${study.accentColor}30`,
-                color: study.accentColor + "aa",
+          <div className="absolute inset-0 flex items-center justify-center p-12">
+            <motion.div
+              animate={{ 
+                y: [0, -15, 0],
               }}
+              transition={{ 
+                duration: 6, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+              className="relative w-full aspect-square max-w-[280px]"
             >
-              {tag}
-            </span>
-          ))}
-        </div>
-        {/* Arrow */}
-        <div className="absolute bottom-4 right-4 w-8 h-8 rounded-full border border-[#333] flex items-center justify-center group-hover:border-[#c8fa5f] group-hover:bg-[#c8fa5f] transition-all duration-300">
-          <svg
-            className="w-3.5 h-3.5 text-[#555] group-hover:text-[#0a0a0a] transition-colors"
-            viewBox="0 0 14 14"
-            fill="none"
-          >
-            <path
-              d="M2 12L12 2M12 2H4M12 2V10"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
-      </div>
-
-      {/* Card content */}
-      <div className="p-6 md:p-8 border-t border-[#1e1e1e]">
-        <h3 className="text-base md:text-lg font-medium text-[#f5f5f0] mb-6 leading-snug">
-          {study.title}
-        </h3>
-        <div className="flex gap-6">
-          {study.stats.map((stat) => (
-            <div key={stat.label}>
-              <p
-                className="stat-number text-xl font-light"
-                style={{ color: study.accentColor }}
+              <div
+                className="absolute inset-0 rounded-full blur-[80px] opacity-20"
+                style={{ backgroundColor: study.accentColor }}
+              />
+              <img 
+                src={study.image} 
+                alt={study.title}
+                className="w-full h-full object-contain relative z-10 brightness-0 invert opacity-40"
+              />
+            </motion.div>
+          </div>
+          
+          <div className="absolute top-8 left-8 flex flex-wrap gap-2">
+            {study.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-3 py-1 rounded-full text-[10px] font-medium uppercase tracking-widest bg-black/30 backdrop-blur-md border border-white/10 text-white/70"
               >
-                {stat.value}
-              </p>
-              <p className="text-xs text-[#555550] mt-0.5">{stat.label}</p>
-            </div>
-          ))}
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
-    </motion.div>
+
+        {/* Content Side */}
+        <div className="w-full md:w-1/2 p-10 md:p-14 lg:p-16 flex flex-col justify-between relative z-20">
+          <div>
+            <div className="flex items-center gap-3 mb-10">
+              <div 
+                className="w-1.5 h-1.5 rounded-full" 
+                style={{ backgroundColor: study.accentColor }} 
+              />
+              <span className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-medium">Project Review</span>
+            </div>
+            
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-light text-[#f5f5f0] mb-8 leading-[1.2]">
+              {study.title}
+            </h3>
+            
+            <p className="text-white/50 text-base md:text-lg mb-12 max-w-md leading-relaxed font-light">
+              {study.description}
+            </p>
+          </div>
+
+          <div>
+            <div className="grid grid-cols-3 gap-6 mb-12 border-t border-white/5 pt-10">
+              {study.stats.map((stat) => (
+                <div key={stat.label}>
+                  <p
+                    className="text-xl md:text-2xl font-light mb-1"
+                    style={{ color: study.accentColor }}
+                  >
+                    {stat.value}
+                  </p>
+                  <p className="text-[9px] uppercase tracking-widest text-white/30 font-medium">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <motion.button
+              whileHover={{ x: 8 }}
+              className="group inline-flex items-center gap-4 text-sm font-light text-white/80 hover:text-white transition-colors"
+            >
+              Read full case study
+              <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black group-hover:border-white transition-all duration-300">
+                <svg
+                  className="w-3.5 h-3.5"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                >
+                  <path
+                    d="M2 12L12 2M12 2H4M12 2V10"
+                    stroke="currentColor"
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </motion.button>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }
 
 export function CaseStudiesSection() {
-  const headerRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(headerRef, { once: true, margin: "-10% 0px" });
+  const containerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section id="case-studies" className="py-24 md:py-36 bg-[#0d0d0d]">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="case-studies" className="py-32 md:py-48 bg-[#0a0a0a]">
+      <div className="max-w-6xl mx-auto px-8 md:px-12 lg:px-16 w-full">
         {/* Header */}
-        <div
-          ref={headerRef}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6"
-        >
-          <div>
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
+          <div className="max-w-2xl">
             <motion.p
               initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6 }}
-              className="text-xs uppercase tracking-widest text-[#888880] mb-4"
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-xs uppercase tracking-[0.4em] text-[#c8fa5f] mb-6 font-medium"
             >
-              Let&apos;s talk
+              Our Impact
             </motion.p>
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="text-4xl md:text-6xl font-light text-[#f5f5f0] leading-tight"
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-5xl md:text-7xl font-light text-[#f5f5f0] leading-[1.05]"
             >
-              Case Studies
+              Proven results from the <span className="text-white/30 italic">front lines</span> of AI.
             </motion.h2>
           </div>
-          <motion.a
+          <motion.div
             initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            href="/case-studies"
-            className="group inline-flex items-center gap-2 text-sm text-[#888880] hover:text-[#f5f5f0] transition-colors"
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
           >
-            View all case studies
-            <span className="group-hover:translate-x-1 transition-transform">
-              →
-            </span>
-          </motion.a>
+            <a
+              href="/case-studies"
+              className="group inline-flex items-center gap-3 text-sm text-white/40 hover:text-white transition-colors"
+            >
+              View all work
+              <span className="group-hover:translate-x-1 transition-transform duration-300">
+                →
+              </span>
+            </a>
+          </motion.div>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Stacking Container */}
+        <div ref={containerRef} className="relative flex flex-col items-center">
           {caseStudies.map((study, i) => (
-            <CaseStudyCard key={study.id} study={study} index={i} />
+            <CaseStudyCard 
+              key={study.id} 
+              study={study} 
+              index={i} 
+              total={caseStudies.length}
+            />
           ))}
         </div>
 
-        {/* "View all" card */}
+        {/* Footer CTA */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.7 }}
-          className="mt-4 p-8 rounded-2xl border border-[#1e1e1e] bg-[#0a0a0a] flex flex-col md:flex-row md:items-center justify-between gap-4"
+          transition={{ duration: 0.8 }}
+          className="mt-32 p-12 md:p-20 rounded-[48px] border border-white/5 bg-[#111] flex flex-col lg:flex-row lg:items-center justify-between gap-12 relative overflow-hidden"
         >
-          <div>
-            <h3 className="text-lg font-medium text-[#f5f5f0] mb-1">
-              View all case studies
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#c8fa5f] opacity-[0.02] blur-[120px] -mr-64 -mt-64 pointer-events-none" />
+          
+          <div className="relative z-10 max-w-xl">
+            <h3 className="text-3xl md:text-4xl font-light text-[#f5f5f0] mb-6">
+              Ready to automate your success?
             </h3>
-            <p className="text-sm text-[#555550]">
-              Access in-depth reports, strategic analysis, and thought
-              leadership
+            <p className="text-white/40 text-lg md:text-xl font-light leading-relaxed">
+              We help ambitious companies leverage cutting-edge AI to solve complex problems and unlock new revenue streams.
             </p>
           </div>
-          <a
-            href="/case-studies"
-            className="inline-flex items-center gap-2 text-sm font-medium px-5 py-2.5 rounded-full border border-[#1e1e1e] text-[#888880] hover:text-[#f5f5f0] hover:border-[#333] transition-all flex-shrink-0"
-          >
-            Learn more →
-          </a>
+          <div className="relative z-10 flex-shrink-0">
+            <a
+              href="/contact"
+              className="inline-flex items-center justify-center px-10 py-5 rounded-full bg-[#c8fa5f] text-[#0a0a0a] text-sm font-semibold hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_10px_30px_rgba(200,250,95,0.2)]"
+            >
+              Start a project
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>
