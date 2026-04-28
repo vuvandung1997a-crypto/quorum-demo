@@ -102,7 +102,7 @@ export function PinnedSection() {
         ref={pinRef}
         className="min-h-screen flex items-center py-24 md:py-0"
       >
-        <div className="max-w-6xl mx-auto px-8 md:px-12 lg:px-16 w-full">
+        <div className="container-custom">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
             {/* Left: Quote with word-by-word reveal */}
             <div>

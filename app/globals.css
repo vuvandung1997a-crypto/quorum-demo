@@ -9,6 +9,20 @@
   --accent: #c8fa5f;
   --accent-dim: rgba(200, 250, 95, 0.1);
   --surface: #141414;
+  --container-width: 1200px;
+  --gutter: 32px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 48px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 64px;
+  }
 }
 
 * {
@@ -28,6 +42,17 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  width: 100%;
+}
+
+/* Force centered container utility */
+.container-custom {
+  width: 100% !important;
+  max-width: var(--container-width) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: var(--gutter) !important;
+  padding-right: var(--gutter) !important;
 }
 
 /* Lenis smooth scroll */

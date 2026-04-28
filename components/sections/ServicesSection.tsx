@@ -219,7 +219,7 @@ export function ServicesSection() {
   return (
     <section id="services" ref={sectionRef}>
       {/* Scrollable section header */}
-      <div className="max-w-6xl mx-auto px-8 md:px-12 lg:px-16 w-full pt-24 md:pt-36 pb-10">
+      <div className="container-custom pt-24 md:pt-36 pb-10">
         <div ref={headerRef}>
           <motion.p
             initial={{ opacity: 0, y: 20 }}

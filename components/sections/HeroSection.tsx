@@ -85,7 +85,7 @@ export function HeroSection() {
       />
 
       {/* Main Container - Tighter max-width for better "gutter" feel */}
-      <div className="max-w-6xl mx-auto px-8 md:px-12 lg:px-16 w-full relative z-10">
+      <div className="container-custom relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

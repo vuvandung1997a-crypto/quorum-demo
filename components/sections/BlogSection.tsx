@@ -33,7 +33,7 @@ export function BlogSection() {
 
   return (
     <section className="py-24 md:py-36">
-      <div className="max-w-6xl mx-auto px-8 md:px-12 lg:px-16 w-full">
+      <div className="container-custom">
         {/* Header */}
         <div
           ref={headerRef}

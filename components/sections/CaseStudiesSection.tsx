@@ -213,7 +213,7 @@ export function CaseStudiesSection() {
 
   return (
     <section id="case-studies" className="py-32 md:py-48 bg-[#0a0a0a]">
-      <div className="max-w-6xl mx-auto px-8 md:px-12 lg:px-16 w-full">
+      <div className="container-custom">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
           <div className="max-w-2xl">

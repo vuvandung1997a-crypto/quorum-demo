@@ -28,7 +28,7 @@ export function Footer() {
   return (
     <footer className="border-t border-[#1e1e1e] bg-[#0a0a0a]">
       {/* CTA band */}
-      <div className="max-w-6xl mx-auto px-8 md:px-12 lg:px-16 w-full py-20 md:py-28 border-b border-[#1e1e1e]">
+      <div className="container-custom py-20 md:py-28 border-b border-[#1e1e1e]">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
           <div className="max-w-xl">
             <p className="text-xs uppercase tracking-widest text-[#888880] mb-4">
@@ -70,7 +70,7 @@ export function Footer() {
       </div>
 
       {/* Links grid */}
-      <div className="max-w-6xl mx-auto px-8 md:px-12 lg:px-16 w-full py-12">
+      <div className="container-custom py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
           <div>
             <span className="text-base font-semibold tracking-tight">

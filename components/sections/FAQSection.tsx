@@ -99,7 +99,7 @@ export function FAQSection() {
 
   return (
     <section id="faq" className="py-24 md:py-36 bg-[#0d0d0d]">
-      <div className="max-w-6xl mx-auto px-8 md:px-12 lg:px-16 w-full">
+      <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
           {/* Left column */}
           <div ref={headerRef} className="md:sticky md:top-24 md:self-start">
